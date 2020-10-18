@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd"> 
+<mapper namespace="tw.com.gss.sdsd3.module.mapper.Product_tagMapper">
+	<resultMap type="tw.com.gss.sdsd3.module.entity.Product_tag" id="Product_tag">
+		<result column="ID" jdbcType="INTEGER" property="id" />
+		<result column="TAG_NAME" jdbcType="VARCHAR" property="tag_name" />
+	</resultMap>
+    
+    <!-- 搜尋所有商品標籤-->
+	 <select id="findAllTag" resultMap="Product_tag">
+    	SELECT
+    		ID, TAG_NAME
+    	FROM
+    		PRODUCT_TAG
+    </select>
+    
+    <!-- 以id找標籤 -->
+    <select id="findById" resultMap="Product_tag">
+    	SELECT
+    		ID, TAG_NAME
+    	FROM
+    		PRODUCT_TAG
+    	WHERE
+    		ID = #{id}
+    </select>
+
+    <!-- 新增商品標籤 -->
+	 <insert id="insertTag" useGeneratedKeys="true" keyProperty="id">
+    	INSERT INTO
+    		PRODUCT_TAG (ID, TAG_NAME)
+    	VALUES
+    		(#{id}, #{tag_name})
+    </insert>
+    
+     <!-- 更新商品標籤 -->
+    <update id="updateTag">
+    	UPDATE
+    		PRODUCT_TAG
+    	SET
+    		TAG_NAME = #{tag_name}
+    	WHERE
+    		ID = #{id}
+    </update>
+    
+    <!-- 刪除商品標籤 -->
+    <delete id="deleteByTagId">
+    	DELETE FROM
+    		PRODUCT_TAG
+    	WHERE
+    		ID = #{id}
+    </delete>
+	
+</mapper>

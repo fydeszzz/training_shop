@@ -1,0 +1,129 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd"> 
+
+<mapper namespace="tw.com.gss.sdsd3.module.mapper.OrdersMapper">
+	<resultMap type="tw.com.gss.sdsd3.module.entity.Orders" id="Orders">
+		<result column="ID" jdbcType="INTEGER" property="id" />
+		<result column="MEMBER_ID" jdbcType="INTEGER" property="member_id" />
+		<result column="MEMBER_NAME" jdbcType="VARCHAR" property="member_name" />
+		<result column="PHONE" jdbcType="VARCHAR" property="phone"/>
+        <result column="ADDRESS" jdbcType="VARCHAR" property="address"/>
+		<result column="TOTAL" jdbcType="INTEGER" property="total" />
+		<result column="PAY_WAY" jdbcType="INTEGER" property="pay_way" />
+		<result column="ORDER_DATE" jdbcType="TIMESTAMP" property="order_date" />
+		<result column="STATUS" jdbcType="INTEGER" property="status" />
+
+	<association property="method" javaType="tw.com.gss.sdsd3.module.entity.Pay_way">
+		<id column="ID" jdbcType="INTEGER" property="id" />
+		<result column="METHOD" jdbcType="VARCHAR" property="method" />
+	</association>
+	
+	<association property="delivery" javaType="tw.com.gss.sdsd3.module.entity.Delivery">
+		<id column="ID" jdbcType="INTEGER" property="id" />
+		<result column="STATUS_NAME" jdbcType="VARCHAR" property="status_name" />
+	</association>
+	
+	<collection property="detailList" ofType="tw.com.gss.sdsd3.module.entity.OrderDetail">
+		<result column="ORDER_ID" jdbcType="INTEGER" property="order_id" />
+		<result column="PRODUCT_ID" jdbcType="INTEGER" property="product_id" />
+		<result column="QUANTITY" jdbcType="INTEGER" property="quantity" />
+	</collection>
+
+	</resultMap>
+
+ 	<!-- 搜尋所有訂單(一對多&多對多) -->
+	 <select id="findAll" resultMap="Orders">
+    	SELECT
+    		*
+    	FROM
+    		(ORDERS AS O INNER JOIN PAY_WAY AS PW ON O.PAY_WAY = PW.ID)
+    	INNER JOIN
+    		ORDERDETAIL AS OD 
+    	ON 
+    		O.ID = OD.ORDER_ID
+    	INNER JOIN
+    		DELIVERY AS D
+    	ON
+    		O.STATUS = D.ID
+    </select>
+
+    <select id="findByMemberid" resultMap="Orders">
+    	SELECT
+			O.*, PW.METHOD, D.STATUS_NAME 
+    	FROM
+    		(ORDERS AS O INNER JOIN PAY_WAY AS PW ON O.PAY_WAY = PW.ID)
+    	INNER JOIN
+    		ORDERDETAIL AS OD 
+    	ON 
+    		O.ID = OD.ORDER_ID
+    	INNER JOIN
+    		DELIVERY AS D
+    	ON
+    		O.STATUS = D.ID
+    	<where>
+			MEMBER_ID = #{member_id}
+		</where>
+    </select>
+    
+    <select id="findByPayway" resultMap="Orders">
+    	SELECT
+    		*
+    	FROM
+    		ORDERS
+    	<where>
+			PAY_WAY = #{pay_way}
+		</where>
+    </select>
+    
+    <select id="findByStatus" resultMap="Orders">
+    	SELECT
+    		*
+    	FROM
+    		ORDERS
+    	<where>
+			STATUS = #{status}
+		</where>
+    </select>
+
+    <select id="findById" resultMap="Orders">
+    	SELECT
+    		*
+    	FROM
+    		(ORDERS AS O INNER JOIN PAY_WAY AS PW ON O.PAY_WAY = PW.ID)
+    	INNER JOIN
+    		ORDERDETAIL AS OD 
+    	ON 
+    		O.ID = OD.ORDER_ID
+    	INNER JOIN
+    		DELIVERY AS D
+    	ON
+    		O.STATUS = D.ID
+    	<where>
+			O.ID = #{id}
+		</where>
+    </select>
+	 <insert id="insert" useGeneratedKeys="true" keyProperty="id">
+    	INSERT INTO
+    		ORDERS (ID, MEMBER_ID, MEMBER_NAME, PHONE, ADDRESS,
+    				TOTAL, PAY_WAY, ORDER_DATE, STATUS)
+    	VALUES
+    		(#{id}, #{member_id}, #{member_name}, #{phone}, #{address},
+    		#{total}, #{pay_way}, #{order_date}, #{status})
+    </insert>
+    <update id="update">
+    	UPDATE
+    		ORDERS
+    	SET
+    		MEMBER_ID = #{member_id}, MEMBER_NAME = #{member_name}, PHONE = #{phone}, 
+    		ADDRESS = #{address}, TOTAL = #{total}, PAY_WAY = #{pay_way}, 
+    		ORDER_DATE = #{order_date}, STATUS = #{status}
+    	WHERE
+    		ID = #{id}
+    </update>
+    <delete id="deleteById">
+    	DELETE FROM
+    		ORDERS
+    	WHERE
+    		ID = #{id}
+    </delete>
+</mapper>

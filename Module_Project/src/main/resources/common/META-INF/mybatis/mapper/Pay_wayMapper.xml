@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd"> 
+<mapper namespace="tw.com.gss.sdsd3.module.mapper.Pay_wayMapper">
+	<resultMap type="tw.com.gss.sdsd3.module.entity.Pay_way" id="Pay_way">
+		<result column="ID" jdbcType="INTEGER" property="id" />
+		<result column="METHOD" jdbcType="INTEGER" property="method" />
+	</resultMap>
+    
+    <!-- 搜尋所有付款方式-->
+	 <select id="findAllWay" resultMap="Pay_way">
+    	SELECT
+    		ID, WAY
+    	FROM
+    		PAY_WAY
+    </select>
+    
+    <!-- 以id找付款方式-->
+    <select id="findById" resultMap="Pay_way">
+    	SELECT
+    		ID, WAY
+    	FROM
+    		PAY_WAY
+    	WHERE
+    		ID = #{id}
+    </select>
+
+    <!-- 新增付款方式 -->
+	 <insert id="insertWay" useGeneratedKeys="true" keyProperty="id">
+    	INSERT INTO
+    		PAY_WAY (ID, WAY)
+    	VALUES
+    		(#{id}, #{way})
+    </insert>
+    
+     <!-- 更新付款方式 -->
+    <update id="updateWay">
+    	UPDATE
+    		PAY_WAY
+    	SET
+    		WAY = #{way}
+    	WHERE
+    		ID = #{id}
+    </update>
+    
+    <!-- 刪除付款方式 -->
+    <delete id="deleteByWayId">
+    	DELETE FROM
+    		PAY_WAY
+    	WHERE
+    		ID = #{id}
+    </delete>
+	
+</mapper>

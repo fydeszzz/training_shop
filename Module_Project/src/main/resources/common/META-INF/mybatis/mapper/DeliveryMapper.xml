@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd"> 
+<mapper namespace="tw.com.gss.sdsd3.module.mapper.DeliveryMapper">
+	<resultMap type="tw.com.gss.sdsd3.module.entity.Delivery" id="Delivery">
+		<result column="ID" jdbcType="INTEGER" property="id" />
+		<result column="STATUS_NAME" jdbcType="VARCHAR" property="status_name" />
+	</resultMap>
+    
+    <!-- 搜尋所有配送狀態-->
+	 <select id="findAll" resultMap="Delivery">
+    	SELECT
+    		ID, STATUS_NAME
+    	FROM
+    		DELIVERY
+    </select>
+    
+    <!-- 以id找配送狀態-->
+    <select id="findById" resultMap="Delivery">
+    	SELECT
+    		ID, STATUS_NAME
+    	FROM
+    		DELIVERY
+    	WHERE
+    		ID = #{id}
+    </select>
+
+    <!-- 新增配送狀態 -->
+	 <insert id="insert" useGeneratedKeys="true" keyProperty="id">
+    	INSERT INTO
+    		DELIVERY (ID, STATUS_NAME)
+    	VALUES
+    		(#{id}, #{status_name})
+    </insert>
+    
+     <!-- 更新配送狀態 -->
+    <update id="update">
+    	UPDATE
+    		DELIVERY
+    	SET
+    		STATUS_NAME = #{status_name}
+    	WHERE
+    		ID = #{id}
+    </update>
+    
+    <!-- 刪除配送狀態 -->
+    <delete id="deleteById">
+    	DELETE FROM
+    		DELIVERY
+    	WHERE
+    		ID = #{id}
+    </delete>
+	
+</mapper>

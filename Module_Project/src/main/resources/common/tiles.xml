@@ -1,0 +1,169 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE tiles-definitions PUBLIC
+	"-//Apache Software Foundation//DTD Tiles Configuration 3.0//EN"  
+	"http://tiles.apache.org/dtds/tiles-config_3_0.dtd">  
+
+<tiles-definitions>
+    <definition name="simpleLayout" template="/WEB-INF/content/common/StandardLayout.jsp">
+        <put-attribute name="contentLayout" value="/WEB-INF/content/common/SimpleContentLayout.jsp" />
+        <put-attribute name="title" value="SDSD3 Module 系統" cascade="true" />
+        <put-attribute name="body" value="/WEB-INF/content/common/Blank.jsp" cascade="true" />
+    </definition>
+
+    <definition name="standardLayout" template="/WEB-INF/content/common/StandardLayout.jsp">
+        <put-attribute name="contentLayout" value="/WEB-INF/content/common/StandardContentLayout.jsp" />
+        <put-attribute name="title" value="SDSD3 Module 系統" cascade="true" />
+        <put-attribute name="sidebar" value="/WEB-INF/content/common/Sidebar.jsp" cascade="true" />
+        <put-attribute name="menu" value="/WEB-INF/content/common/Menu.jsp" cascade="true" />
+        <put-attribute name="body" value="/WEB-INF/content/common/Blank.jsp" cascade="true" />
+    </definition>
+    
+    <definition name="standardLayout2" template="/WEB-INF/content/common/StandardLayout2.jsp">
+        <put-attribute name="contentLayout" value="/WEB-INF/content/common/StandardContentLayout2.jsp" />
+        <put-attribute name="title" value="會員管理" cascade="true" />
+        <put-attribute name="body" value="/WEB-INF/content/common/Blank.jsp" cascade="true" />
+    </definition>
+
+    <!-- Common Pages -->
+    <definition name="processResult" template="/WEB-INF/content/common/ProcessResult.jsp" />
+
+    <!-- 系統屬性 -->
+    <definition name="systemPropertyQuery" extends="standardLayout">
+    	<put-attribute name="title" value="SDSD3 Module 系統-系統屬性查詢" cascade="true" />
+        <put-attribute name="body" value="/WEB-INF/content/systemProperty/SystemPropertyQuery.jsp" cascade="true" />
+    </definition>
+
+    <definition name="systemPropertyView" extends="standardLayout">
+    	<put-attribute name="title" value="SDSD3 Module 系統-系統屬性檢視" cascade="true" />
+        <put-attribute name="body" value="/WEB-INF/content/systemProperty/SystemPropertyView.jsp" cascade="true" />
+    </definition>
+
+    <definition name="systemProperty" extends="standardLayout">
+    	<put-attribute name="title" value="SDSD3 Module 系統-系統屬性" cascade="true" />
+        <put-attribute name="body" value="/WEB-INF/content/systemProperty/SystemProperty.jsp" cascade="true" />
+    </definition>
+    
+    <!-- 後台首頁(管理者使用) -->
+    <definition name="adminLogin" extends="simpleLayout">
+    	<put-attribute name="title" value="管理者後台  -登入" cascade="true" />
+        <put-attribute name="body" value="/WEB-INF/content/backend/adminLogin.jsp" cascade="true" />
+    </definition>
+    
+    <definition name="admin" extends="simpleLayout">
+    	<put-attribute name="title" value="管理者後台" cascade="true" />
+        <put-attribute name="body" value="/WEB-INF/content/backend/admin.jsp" cascade="true" />
+    </definition>
+    
+    <definition name="uploadFile" extends="simpleLayout">
+    	<put-attribute name="title" value="圖片上傳" cascade="true" />
+        <put-attribute name="body" value="/WEB-INF/content/backend/uploadFile.jsp" cascade="true" />
+    </definition>
+    
+    <!-- 商品後台(管理者使用) -->
+    <definition name="productManage" extends="simpleLayout">
+    	<put-attribute name="title" value="管理者後台 - 商品管理" cascade="true" />
+        <put-attribute name="body" value="/WEB-INF/content/backend/productManage.jsp" cascade="true" />
+    </definition>
+    
+    <definition name="productAdd" extends="simpleLayout">
+    	<put-attribute name="title" value="管理者後台 - 新增商品" cascade="true" />
+        <put-attribute name="body" value="/WEB-INF/content/backend/productAdd.jsp" cascade="true" />
+    </definition>
+    
+    <definition name="productUpdate" extends="simpleLayout">
+    	<put-attribute name="title" value="管理者後台 - 更新商品" cascade="true" />
+        <put-attribute name="body" value="/WEB-INF/content/backend/productUpdate.jsp" cascade="true" />
+    </definition>
+
+    <!-- 訂單後台(管理者使用) -->
+    <definition name="orderManage" extends="simpleLayout">
+    	<put-attribute name="title" value="管理者後台 - 訂單管理" cascade="true" />
+        <put-attribute name="body" value="/WEB-INF/content/backend/orderManage.jsp" cascade="true" />
+    </definition>
+    
+    <definition name="orderUpdate" extends="simpleLayout">
+    	<put-attribute name="title" value="管理者後台 - 更新訂單" cascade="true" />
+        <put-attribute name="body" value="/WEB-INF/content/backend/orderUpdate.jsp" cascade="true" />
+    </definition>
+
+    <!-- 會員後台 -->
+    <definition name="memberCenter" extends="standardLayout2">
+    	<put-attribute name="title" value="會員後台管理" cascade="true" />
+        <put-attribute name="body" value="/WEB-INF/content/backend/memberCenter.jsp" cascade="true" />
+    </definition>
+    
+    <definition name="memberCreate" extends="standardLayout2">
+    	<put-attribute name="title" value="新增會員" cascade="true" />
+        <put-attribute name="body" value="/WEB-INF/content/backend/memberCreate.jsp" cascade="true" />
+    </definition>
+    
+    <definition name="memberInfo" extends="standardLayout2">
+    	<put-attribute name="title" value="修改會員資料" cascade="true" />
+        <put-attribute name="body" value="/WEB-INF/content/backend/memberInfo.jsp" cascade="true" />
+    </definition>
+    
+    <!-- 會員登入與會員中心 -->
+    <definition name="login" extends="simpleLayout">
+    	<put-attribute name="title" value="登入" cascade="true" />
+        <put-attribute name="body" value="/WEB-INF/content/login/Login.jsp" cascade="true" />
+    </definition>
+    
+    <definition name="register" extends="simpleLayout">
+    	<put-attribute name="title" value="註冊新會員" cascade="true" />
+        <put-attribute name="body" value="/WEB-INF/content/login/register.jsp" cascade="true" />
+    </definition>
+    
+    <definition name="profile" extends="simpleLayout">
+    	<put-attribute name="title" value="會員中心" cascade="true" />
+        <put-attribute name="body" value="/WEB-INF/content/login/profile.jsp" cascade="true" />
+    </definition>
+    
+    <definition name="profileInfo" extends="simpleLayout">
+    	<put-attribute name="title" value="會員中心 - 修改資料" cascade="true" />
+        <put-attribute name="body" value="/WEB-INF/content/login/profileInfo.jsp" cascade="true" />
+    </definition>
+    
+    <definition name="orderRecord" extends="simpleLayout">
+    	<put-attribute name="title" value="會員中心 - 訂單查詢" cascade="true" />
+        <put-attribute name="body" value="/WEB-INF/content/payment/orderRecord.jsp" cascade="true" />
+    </definition>
+    
+    <!-- 首頁 -->
+    <definition name="index" extends="simpleLayout">
+    	<put-attribute name="title" value="HOTPOTGO - 火鍋宅急便" cascade="true" />
+        <put-attribute name="body" value="/WEB-INF/content/index/index.jsp" cascade="true" />
+    </definition>
+    
+    <definition name="infomation" extends="simpleLayout">
+    	<put-attribute name="title" value="購物流程" cascade="true" />
+        <put-attribute name="body" value="/WEB-INF/content/index/infomation.jsp" cascade="true" />
+    </definition>
+    
+    <!-- 商品頁 -->
+    <definition name="product" extends="simpleLayout">
+    	<put-attribute name="title" value="全部商品" cascade="true" />
+        <put-attribute name="body" value="/WEB-INF/content/product/product.jsp" cascade="true" />
+    </definition>
+    
+    <definition name="productView" extends="simpleLayout">
+    	<put-attribute name="title" value="商品瀏覽" cascade="true" />
+        <put-attribute name="body" value="/WEB-INF/content/product/productView.jsp" cascade="true" />
+    </definition>
+    
+    <definition name="shopcart" extends="simpleLayout">
+    	<put-attribute name="title" value="購物車" cascade="true" />
+        <put-attribute name="body" value="/WEB-INF/content/product/shopcart.jsp" cascade="true" />
+    </definition>
+    
+    <!-- 訂單頁 -->
+    <definition name="order" extends="simpleLayout">
+    	<put-attribute name="title" value="本次訂單" cascade="true" />
+        <put-attribute name="body" value="/WEB-INF/content/payment/order.jsp" cascade="true" />
+    </definition>
+    
+    <definition name="orderSuccess" extends="simpleLayout">
+    	<put-attribute name="title" value="訂單成立" cascade="true" />
+        <put-attribute name="body" value="/WEB-INF/content/payment/orderSuccess.jsp" cascade="true" />
+    </definition>
+    
+</tiles-definitions>

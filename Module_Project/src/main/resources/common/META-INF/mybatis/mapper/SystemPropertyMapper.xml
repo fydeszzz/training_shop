@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd"> 
+<mapper namespace="tw.com.gss.sdsd3.module.mapper.SystemPropertyMapper">
+	<resultMap type="tw.com.gss.sdsd3.module.entity.SystemProperty" id="SystemProperty">
+		<result column="ID" jdbcType="INTEGER" property="id" />
+		<result column="SYSTEM" jdbcType="VARCHAR" property="system" />
+		<result column="NAME" jdbcType="VARCHAR" property="name" />
+		<result column="VALUE" jdbcType="VARCHAR" property="value" />
+	</resultMap>
+    <select id="findValueBy" resultType="String">
+    	SELECT
+    		VALUE
+    	FROM
+    		SYSTEM_PROPERTY
+   		<where>
+			<if test="system != null">AND SYSTEM = #{system}</if>
+			<if test="name != null">AND NAME = #{name}</if>
+		</where>
+    </select>
+    <select id="findMapBy" resultType="java.util.HashMap">
+    	SELECT
+    		ID, SYSTEM, NAME, VALUE
+    	FROM
+    		SYSTEM_PROPERTY
+   		<where>
+			<if test="system != null">AND SYSTEM = #{system}</if>
+			<if test="name != null">AND NAME = #{name}</if>
+		</where>
+    </select>
+    <select id="findBy" resultMap="SystemProperty">
+    	SELECT
+    		ID, SYSTEM, NAME, VALUE
+    	FROM
+    		SYSTEM_PROPERTY
+   		<where>
+			<if test="system != null and system != ''">AND SYSTEM LIKE "%"#{system}"%"</if>
+			<if test="name != null and name != ''">AND NAME LIKE "%"#{name}"%"</if>
+		</where>
+    </select>
+    <select id="findByKey" resultMap="SystemProperty">
+    	SELECT
+    		ID, SYSTEM, NAME, VALUE
+    	FROM
+    		SYSTEM_PROPERTY
+    	WHERE
+    		ID = #{id}
+    </select>
+    <select id="findAll" resultMap="SystemProperty">
+    	SELECT
+    		ID, SYSTEM, NAME, VALUE
+    	FROM
+    		SYSTEM_PROPERTY
+    </select>
+    <insert id="insert" useGeneratedKeys="true" keyProperty="id">
+    	INSERT INTO
+    		SYSTEM_PROPERTY (ID, SYSTEM, NAME, VALUE)
+    	VALUES
+    		(#{id}, #{system}, #{name}, #{value})
+    </insert>
+    <update id="update">
+    	UPDATE
+    		SYSTEM_PROPERTY
+    	SET
+    		SYSTEM = #{system}, NAME = #{name}, VALUE = #{value}
+    	WHERE
+    		ID = #{id}
+    </update>
+    <delete id="deleteById">
+    	DELETE FROM
+    		SYSTEM_PROPERTY
+    	WHERE
+    		ID = #{id}
+    </delete>
+</mapper>

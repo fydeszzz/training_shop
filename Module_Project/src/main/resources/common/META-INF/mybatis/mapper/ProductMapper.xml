@@ -1,0 +1,110 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd"> 
+<mapper namespace="tw.com.gss.sdsd3.module.mapper.ProductMapper">
+	<resultMap type="tw.com.gss.sdsd3.module.entity.Product" id="Product">
+		<id column="ID" jdbcType="INTEGER" property="id" />
+		<result column="PRODUCT_NAME" jdbcType="VARCHAR" property="product_name" />
+		<result column="DETAIL" jdbcType="VARCHAR" property="detail" />
+		<result column="TAG" jdbcType="INTEGER" property="tag" />
+		<result column="PRICE" jdbcType="INTEGER" property="price" />
+		<result column="STORAGE" jdbcType="INTEGER" property="storage" />
+		<result column="SHELF" jdbcType="BIT" property="shelf" />
+	
+	<association property="product_tag" javaType="tw.com.gss.sdsd3.module.entity.Product_tag">
+		<id column="ID" jdbcType="INTEGER" property="id" />
+		<result column="TAG_NAME" jdbcType="VARCHAR" property="tag_name" />
+	</association>
+
+	</resultMap>
+   
+    <!-- 以商品名稱找商品 -->
+    <select id="findByName" resultMap="Product">
+    	SELECT
+    		P.*, PT.TAG_NAME
+    	FROM
+    		PRODUCT AS P
+    	INNER JOIN
+    		PRODUCT_TAG AS PT
+    	ON 
+    		P.TAG = PT.ID
+    	<where>
+			<if test="product_name != null and product_name != ''">AND PRODUCT_NAME LIKE "%"#{product_name}"%"</if>
+			<if test="tag != null and tag != ''">AND TAG = #{tag}</if>
+			AND SHELF = 1
+		</where>
+    </select>
+    
+    <!-- 搜尋所有商品(一對多) 前台-->
+    <select id="findAll" resultMap="Product">
+    	SELECT 
+    		P.*, PT.TAG_NAME
+    	FROM
+    		PRODUCT AS P 
+    	INNER JOIN
+    		PRODUCT_TAG as PT
+    	ON 
+    		P.TAG = PT.ID 
+    	WHERE
+    		SHELF = 1
+    </select>
+    
+    <!-- 搜尋所有商品(一對多) 後台含下架商品-->
+    <select id="findAll2" resultMap="Product">
+    	SELECT 
+    		P.*, PT.TAG_NAME
+    	FROM
+    		PRODUCT AS P 
+    	INNER JOIN
+    		PRODUCT_TAG as PT
+    	ON 
+    		P.TAG = PT.ID
+    </select>
+
+    <!-- 以商品id找商品 -->
+    <select id="findById" resultMap="Product">
+    	SELECT
+    		*
+    	FROM
+    		PRODUCT
+    	WHERE
+    		ID = #{id} AND SHELF = 1
+    </select>
+    
+    <!-- 以商品id找商品(含下架) -->
+    <select id="findById2" resultMap="Product">
+    	SELECT
+    		*
+    	FROM
+    		PRODUCT
+    	WHERE
+    		ID = #{id}
+    </select>
+    
+    <!-- 新增商品 -->
+	 <insert id="insert" useGeneratedKeys="true" keyProperty="id">
+    	INSERT INTO
+    		PRODUCT (ID, PRODUCT_NAME, DETAIL, TAG, PRICE, STORAGE, SHELF)
+    	VALUES
+    		(#{id}, #{product_name}, #{detail}, #{tag}, #{price}, #{storage}, #{shelf})
+    </insert>
+    
+     <!-- 更新商品 -->
+    <update id="update">
+    	UPDATE
+    		PRODUCT
+    	SET
+    		PRODUCT_NAME = #{product_name}, DETAIL = #{detail}, 
+    		TAG = #{tag}, PRICE = #{price}, STORAGE = #{storage}, SHELF = #{shelf}
+    	WHERE
+    		ID = #{id}
+    </update>
+    
+    <!-- 刪除商品 -->
+    <delete id="deleteById">
+    	DELETE FROM
+    		PRODUCT
+    	WHERE
+    		ID = #{id}
+    </delete>
+	
+</mapper>

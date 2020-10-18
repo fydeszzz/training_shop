@@ -1,0 +1,108 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:mvc="http://www.springframework.org/schema/mvc"
+	xmlns:tx="http://www.springframework.org/schema/tx"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:util="http://www.springframework.org/schema/util"
+	xsi:schemaLocation="
+        http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-4.0.xsd
+        http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-4.0.xsd
+        http://www.springframework.org/schema/mvc http://www.springframework.org/schema/mvc/spring-mvc-4.0.xsd
+        http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-4.0.xsd
+        http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util-4.0.xsd">
+
+	<!-- 改JBOSS部屬: java:jboss/sdsd3; 本機部屬: java:jboss/Module/sdsd3"; 原本設定為: java:comp/env/tomcat/sdsd3 -->
+    <bean id="dataSource" class="org.springframework.jndi.JndiObjectFactoryBean">
+    	<property name="jndiName" value="java:comp/env/tomcat/sdsd3" />
+    </bean>
+
+	<!-- mybatis sql映射器 -->
+    <bean id="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">  
+        <property name="dataSource" ref="dataSource" />  
+        <property name="mapperLocations" value="classpath:META-INF/mybatis/mapper/*.xml" />  
+    </bean>
+
+	<!-- mybatis Mapper掃描器 -->
+	<bean class="org.mybatis.spring.mapper.MapperScannerConfigurer">  
+        <property name="basePackage" value="tw.com.gss.sdsd3.module.mapper" />  
+        <property name="sqlSessionFactoryBeanName" value="sqlSessionFactory" />  
+    </bean>
+    
+	<!-- 交易管理 -->
+    <bean id="transactionManager" class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
+		<property name="dataSource" ref="dataSource" />
+	</bean>
+
+	<!-- Enables interpretation of the @Transactional annotation for declerative
+		transaction managment using the specified JtaTransactionManager -->
+	<tx:annotation-driven />
+
+	<!-- 設定註釋注册到Spring容器 -->
+	<context:annotation-config />
+
+    <context:component-scan base-package="tw.com.gss.sdsd3.module" />
+
+    <mvc:annotation-driven />
+    
+    <mvc:resources mapping="/resources/**" location="/resources/" />
+    
+	<!-- 配置攔截器   -->
+	<mvc:interceptors>
+		<mvc:interceptor>
+			<mvc:mapping path="/**"/>
+			<mvc:exclude-mapping path="/resources/**/**"/> 
+			<mvc:exclude-mapping path="/login"/>
+			<mvc:exclude-mapping path="/register"/>
+			<mvc:exclude-mapping path="/infomation"/>
+			<mvc:exclude-mapping path="/upload"/>
+			<mvc:exclude-mapping path="/backend"/>
+			<mvc:exclude-mapping path="/backend/**"/>
+			<mvc:exclude-mapping path="/index"/>
+			<mvc:exclude-mapping path="/shopcart"/>
+			<mvc:exclude-mapping path="/shopcart/**"/>
+			<mvc:exclude-mapping path="/product"/>
+			<mvc:exclude-mapping path="/product/**"/>
+			<bean class="tw.com.gss.sdsd3.module.interceptor.LoginInterceptor"/>
+		</mvc:interceptor>
+
+		<mvc:interceptor>
+			<mvc:mapping path="/backend/**"/>
+			<mvc:exclude-mapping path="/resources/**/**"/> 
+			<mvc:exclude-mapping path="/backend"/>
+			<mvc:exclude-mapping path="/backend/members/check/**"/>
+			<mvc:exclude-mapping path="/backend/members/checkPassword/**"/>
+			<bean class="tw.com.gss.sdsd3.module.interceptor.BackendInterceptor"/>
+		</mvc:interceptor>
+
+		
+	</mvc:interceptors>
+
+	<bean id="tilesConfigurer" class="org.springframework.web.servlet.view.tiles3.TilesConfigurer">
+        <property name="definitions">
+            <list>
+                <value>/WEB-INF/classes/tiles.xml</value>
+            </list>
+        </property>
+    </bean>
+
+	<bean class="org.springframework.web.servlet.view.tiles3.TilesViewResolver">
+		<property name="viewClass" value="org.springframework.web.servlet.view.tiles3.TilesView"></property>
+		<property name="order" value="0"></property>
+	</bean>
+
+	<bean id="messageSource" class="org.springframework.context.support.ResourceBundleMessageSource">
+		<property name="basenames">
+			<list>
+				<value>applicationMessage</value>
+			</list>
+		</property>
+	</bean>
+	
+	<!-- 多重檔案上傳處理器 -->
+	<bean id="multipartResolver" class="org.springframework.web.multipart.commons.CommonsMultipartResolver">
+		<property name="defaultEncoding" value="UTF-8" />
+		<property name="maxUploadSize" value="2097152"/> 
+	</bean>
+	
+</beans>

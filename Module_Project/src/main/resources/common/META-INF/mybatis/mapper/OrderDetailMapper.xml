@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd"> 
+<mapper namespace="tw.com.gss.sdsd3.module.mapper.OrderDetailMapper">
+	<resultMap type="tw.com.gss.sdsd3.module.entity.OrderDetail" id="OrderDetail">
+		<result column="ORDER_ID" jdbcType="INTEGER" property="order_id" />
+		<result column="PRODUCT_ID" jdbcType="INTEGER" property="product_id" />
+		<result column="QUANTITY" jdbcType="INTEGER" property="quantity" />
+		<result column="SUM" jdbcType="INTEGER" property="sum" />
+
+		<association property="product" javaType="tw.com.gss.sdsd3.module.entity.Product">
+			<id column="ID" jdbcType="INTEGER" property="id" />
+			<result column="PRODUCT_NAME" jdbcType="VARCHAR" property="product_name" />
+		</association>
+
+	</resultMap>
+
+	 <select id="findAll" resultMap="OrderDetail">
+    	SELECT
+    		*
+    	FROM
+    		ORDERDETAIL
+    </select>
+    <select id="findByOrderid" resultMap="OrderDetail">
+    	SELECT
+    		OD.*, P.PRODUCT_NAME 
+    	FROM
+    		ORDERDETAIL AS OD
+    	INNER JOIN
+    		PRODUCT AS P
+    	ON 
+    		OD.PRODUCT_ID = P.ID 
+    	<where>
+			ORDER_ID = #{order_id}
+		</where>
+    </select>
+    <select id="findByProductid" resultMap="OrderDetail">
+    	SELECT
+    		*
+    	FROM
+    		ORDERDETAIL
+    	<where>
+			PRODUCT_ID = #{product_id}
+		</where>
+    </select>
+	 <insert id="insertDetail" useGeneratedKeys="true" keyProperty="id">
+    	INSERT INTO
+    		ORDERDETAIL (ORDER_ID, PRODUCT_ID, QUANTITY, SUM)
+    	VALUES
+    		(#{order_id}, #{product_id}, #{quantity}, #{sum})
+    </insert>
+    <update id="updateDetail">
+    	UPDATE
+    		ORDERDETAIL
+    	SET
+    		ORDER_ID = #{order_id}, PRODUCT_ID = #{product_id}, 
+    		QUANTITY = #{quantity}, SUM = #{sum}
+    	WHERE
+    		ORDER_ID = #{order_id}
+    </update>
+    <delete id="deleteByDetailId">
+    	DELETE FROM
+    		ORDERDETAIL
+    	WHERE
+    		ORDER_ID = #{order_id}
+    </delete>
+	
+</mapper>
